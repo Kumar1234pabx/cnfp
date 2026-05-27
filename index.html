@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPSMUN 3.0 — Delegate Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --deep: #0D2B1F;
+    --forest: #114734;
+    --emerald: #1D9E75;
+    --gold: #D4AF37;
+    --cream: #E0C889;
+    --dark: #1A1A1A;
+    --text: #e8dfc8;
+    --muted: #8a9e8a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: var(--deep);
+    color: var(--text);
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Marble grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse at 20% 20%, rgba(29,158,117,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, rgba(212,175,55,0.06) 0%, transparent 60%),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Gold line accents */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), var(--cream), var(--gold), transparent);
+    z-index: 100;
+  }
+
+  .page-wrapper {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Header */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 48px;
+    border-bottom: 1px solid rgba(212,175,55,0.2);
+  }
+
+  .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .logo-emblem {
+    width: 48px;
+    height: 48px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: var(--gold);
+    background: rgba(212,175,55,0.05);
+  }
+
+  .logo-text {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    color: var(--cream);
+    line-height: 1.4;
+  }
+
+  .logo-text span {
+    display: block;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.25em;
+  }
+
+  .header-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    border: 1px solid rgba(212,175,55,0.4);
+    padding: 6px 14px;
+    border-radius: 2px;
+  }
+
+  /* Main content */
+  main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 24px;
+  }
+
+  .login-container {
+    width: 100%;
+    max-width: 520px;
+    text-align: center;
+  }
+
+  /* Decorative star */
+  .deco-star {
+    color: var(--gold);
+    font-size: 14px;
+    letter-spacing: 0.5em;
+    margin-bottom: 32px;
+    opacity: 0.7;
+  }
+
+  .portal-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: var(--emerald);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(36px, 8vw, 64px);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 0.05em;
+    color: var(--gold);
+    text-shadow: 0 0 40px rgba(212,175,55,0.3);
+    margin-bottom: 8px;
+  }
+
+  .subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    letter-spacing: 0.4em;
+    color: var(--cream);
+    opacity: 0.7;
+    margin-bottom: 36px;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 0 auto 36px;
+    max-width: 320px;
+  }
+
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(212,175,55,0.5));
+  }
+
+  .divider-line.right {
+    background: linear-gradient(90deg, rgba(212,175,55,0.5), transparent);
+  }
+
+  .divider-icon {
+    color: var(--gold);
+    font-size: 16px;
+    opacity: 0.7;
+  }
+
+  /* About MUN blurb */
+  .about-mun {
+    background: rgba(17, 71, 52, 0.3);
+    border: 1px solid rgba(212,175,55,0.15);
+    border-radius: 4px;
+    padding: 20px 28px;
+    margin-bottom: 40px;
+    text-align: left;
+  }
+
+  .about-mun p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--cream);
+    opacity: 0.85;
+  }
+
+  /* Login card */
+  .login-card {
+    background: rgba(13, 43, 31, 0.8);
+    border: 1px solid rgba(212,175,55,0.25);
+    border-radius: 6px;
+    padding: 40px 40px 36px;
+    position: relative;
+    backdrop-filter: blur(10px);
+  }
+
+  /* Gold corner accents */
+  .login-card::before,
+  .login-card::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-color: var(--gold);
+    border-style: solid;
+    opacity: 0.5;
+  }
+
+  .login-card::before {
+    top: -1px; left: -1px;
+    border-width: 2px 0 0 2px;
+  }
+
+  .login-card::after {
+    bottom: -1px; right: -1px;
+    border-width: 0 2px 2px 0;
+  }
+
+  .card-label {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    margin-bottom: 28px;
+    opacity: 0.8;
+  }
+
+  .field-group {
+    text-align: left;
+    margin-bottom: 24px;
+  }
+
+  .field-group label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .field-group input {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(212,175,55,0.25);
+    border-radius: 3px;
+    padding: 14px 18px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    color: var(--text);
+    letter-spacing: 0.05em;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+
+  .field-group input::placeholder {
+    color: rgba(138,158,138,0.5);
+    font-size: 14px;
+  }
+
+  .field-group input:focus {
+    border-color: rgba(212,175,55,0.6);
+    box-shadow: 0 0 20px rgba(212,175,55,0.1);
+  }
+
+  .error-msg {
+    display: none;
+    font-size: 11px;
+    color: #e57c7c;
+    letter-spacing: 0.1em;
+    margin-top: 8px;
+  }
+
+  .error-msg.show { display: block; }
+
+  .btn-login {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--gold), #b8941f);
+    color: var(--dark);
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.2s, opacity 0.2s;
+    box-shadow: 0 4px 20px rgba(212,175,55,0.25);
+  }
+
+  .btn-login:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 30px rgba(212,175,55,0.4);
+  }
+
+  .btn-login:active { transform: translateY(0); }
+
+  .btn-login:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  /* Taglines */
+  .taglines {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(212,175,55,0.1);
+  }
+
+  .tagline-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .tagline-item .dot {
+    width: 4px;
+    height: 4px;
+    background: var(--gold);
+    border-radius: 50%;
+    opacity: 0.6;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 24px;
+    border-top: 1px solid rgba(212,175,55,0.1);
+  }
+
+  footer p {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+  }
+
+  footer a {
+    color: var(--emerald);
+    text-decoration: none;
+  }
+
+  /* Animated gold particles */
+  .particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--gold);
+    border-radius: 50%;
+    opacity: 0;
+    animation: float-up linear infinite;
+  }
+
+  @keyframes float-up {
+    0% { transform: translateY(100vh) scale(0); opacity: 0; }
+    10% { opacity: 0.4; }
+    90% { opacity: 0.2; }
+    100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 18px 20px; }
+    .login-card { padding: 28px 24px; }
+    .taglines { gap: 16px; flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<div class="particles" id="particles"></div>
+
+<div class="page-wrapper">
+  <header>
+    <div class="logo-area">
+      <div class="logo-emblem">✦</div>
+      <div class="logo-text">
+        SATLUJ MUN
+        <span>SPSMUN 3.0</span>
+      </div>
+    </div>
+    <div class="header-badge">THE ERA OF IMPACT</div>
+  </header>
+
+  <main>
+    <div class="login-container">
+      <div class="deco-star">✦ &nbsp; ✦ &nbsp; ✦</div>
+      <div class="portal-tag">· Delegate Portal ·</div>
+
+      <h1>SPSMUN<br>3.0</h1>
+      <div class="subtitle">A DECADE OF DIPLOMACY &nbsp;·&nbsp; A FUTURE OF CHANGE</div>
+
+      <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-icon">⬡</div>
+        <div class="divider-line right"></div>
+      </div>
+
+      <div class="about-mun">
+        <p>Model United Nations (MUN) is a simulation of the United Nations where students debate global issues as country delegates, developing skills in diplomacy, research, and public speaking.</p>
+        <p style="margin-top:10px;">SPSMUN 3.0 marks a decade of legacy at Satluj Public School — where tomorrow's leaders find their voice.</p>
+      </div>
+
+      <div class="login-card">
+        <div class="card-label">· Access Your Delegate Profile ·</div>
+
+        <div class="field-group">
+          <label>Registered Phone Number</label>
+          <input
+            type="tel"
+            id="phoneInput"
+            placeholder="Enter your 10-digit number"
+            maxlength="10"
+            inputmode="numeric"
+            pattern="[0-9]*"
+          >
+          <div class="error-msg" id="errorMsg">No delegate found with this number. Please check and try again.</div>
+        </div>
+
+        <button class="btn-login" id="loginBtn" onclick="handleLogin()">
+          Access Profile &nbsp;›
+        </button>
+      </div>
+
+      <div class="taglines">
+        <div class="tagline-item"><div class="dot"></div>Be Heard</div>
+        <div class="tagline-item"><div class="dot"></div>Make an Impact</div>
+        <div class="tagline-item"><div class="dot"></div>Change Tomorrow</div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>SPSMUN 3.0 &nbsp;|&nbsp; Satluj Public School &nbsp;|&nbsp; <a href="https://satlujmun.com" target="_blank">satlujmun.com</a></p>
+  </footer>
+</div>
+
+<script>
+  // ── Delegate database (auto-generated from Kartik.xlsx) ──
+  const DELEGATES = [{"name": "Ansh", "class": "5th", "section": "Sweeticia", "portfolio": "Turkiye", "committee": "UNCSW", "contact": "8437609948"}, {"name": "Japleen Kaur", "class": "7th", "section": "Gladiolus", "portfolio": "Finland", "committee": "WHO", "contact": "7567125125"}, {"name": "Prathamesh Verma", "class": "10th", "section": "Frost", "portfolio": "Sudan", "committee": "WHO", "contact": "7404227950"}, {"name": "Yash Dhiman", "class": "10th", "section": "Frost", "portfolio": "Latvia", "committee": "UNSC", "contact": "7988639832"}, {"name": "Viraj Goswami", "class": "9th", "section": "TS Eliot", "portfolio": "Pankaj Kr Gupta", "committee": "AIPPM", "contact": "9996770054"}, {"name": "Marvi", "class": "5th", "section": "Sweeticia", "portfolio": "Nepal", "committee": "WHO", "contact": "9857758901"}, {"name": "Akul Atri", "class": "9th", "section": "Shakespeare", "portfolio": "Newzealand", "committee": "WHO", "contact": "7696066624"}, {"name": "Shivam Gupta", "class": "8th", "section": "Iris", "portfolio": "Caricature", "committee": "IP", "contact": "9877786395"}, {"name": "Khyati Bisht", "class": "9th", "section": "Blake", "portfolio": "Brazil", "committee": "UNGA", "contact": "-"}, {"name": "Shreeya Sharma", "class": "9th", "section": "TS Eliot", "portfolio": "Bahrain", "committee": "UNSC", "contact": "7807320811"}, {"name": "Nipun Gaur", "class": "9th", "section": "Shelly", "portfolio": "SLOVENIA", "committee": "UNGA", "contact": "9991511055"}, {"name": "Pihu", "class": "7th", "section": "Dahlia", "portfolio": "AUSTRIA", "committee": "WHO", "contact": "9416376023"}, {"name": "Banveer Singh", "class": "9th", "section": "Austen", "portfolio": "Photography", "committee": "IP", "contact": "8194949485"}, {"name": "Niharika Sharma", "class": "9th", "section": "TS Eliot", "portfolio": "Hungary", "committee": "UNGA", "contact": "8427492918"}, {"name": "Vania Rana", "class": "9th", "section": "TS Eliot", "portfolio": "Ethiopia", "committee": "UNGA", "contact": "9872795032"}, {"name": "Harman Sharma", "class": "9th", "section": "Shelly", "portfolio": "Photography", "committee": "IP", "contact": "9467239753"}, {"name": "Saanvi", "class": "9th", "section": "John Donne", "portfolio": "Morocco", "committee": "UNHRC", "contact": "9464705131"}, {"name": "Bhavya Sharma", "class": "9th", "section": "Shakespeare", "portfolio": "Sweden", "committee": "UNHRC", "contact": "7988787180"}, {"name": "Vanya Tyagi", "class": "10th", "section": "Ruskin Bond", "portfolio": "Mexico", "committee": "UNGA", "contact": "9718591957"}, {"name": "Abhijot Singh", "class": "9th", "section": "O Henry", "portfolio": "Journalism", "committee": "IP", "contact": "8427457182"}, {"name": "Arpit Srivastava", "class": "9th", "section": "Blake", "portfolio": "Germany", "committee": "UNGA", "contact": "7986431393"}, {"name": "Krishit Singroha", "class": "9th", "section": "Blake", "portfolio": "Netherlands", "committee": "UNGA", "contact": "8437302494"}, {"name": "Aarab Bir", "class": "10th", "section": "Frost", "portfolio": "Sweden", "committee": "UNGA", "contact": "9316599266"}, {"name": "Pulkit Singh", "class": "9th", "section": "Shelly", "portfolio": "Serbia", "committee": "UNGA", "contact": "7719614502"}, {"name": "Aarav Garg", "class": "7th", "section": "Jasmine", "portfolio": "Ghana", "committee": "WHO Beginners", "contact": "8872481413"}, {"name": "Aishra Gupta", "class": "7th", "section": "Jasmine", "portfolio": "Yemen", "committee": "WHO Beginners", "contact": "9454566153"}, {"name": "Siyona Bharwaj", "class": "6th", "section": "Freesia", "portfolio": "Jamaica", "committee": "WHO Beginners", "contact": "8351049760"}, {"name": "Vamika Gupta", "class": "7th", "section": "Primrose", "portfolio": "Photography", "committee": "IP", "contact": "7988203324"}, {"name": "Chirag", "class": "9th", "section": "Lawrence", "portfolio": "Colombia", "committee": "UNSC", "contact": "8360605816"}, {"name": "Ansh Rana", "class": "9th", "section": "Shelly", "portfolio": "Photography", "committee": "IP", "contact": "9729460539"}, {"name": "Abhay Sharma", "class": "8th", "section": "Florentia", "portfolio": "Photography", "committee": "IP", "contact": "9468001800"}, {"name": "Tanmay Gautam", "class": "9th", "section": "Austen", "portfolio": "Punjab Kings", "committee": "IPL", "contact": "8289008191"}, {"name": "Angel", "class": "9th", "section": "Austen", "portfolio": "Tajikistan", "committee": "UNGA", "contact": "8295489180"}, {"name": "Divyansh Chauhan", "class": "9th", "section": "John Donne", "portfolio": "Argentina", "committee": "UNGA", "contact": "9996326606"}, {"name": "Urmi", "class": "9th", "section": "Kipling", "portfolio": "Luxembourg", "committee": "UNGA", "contact": "9690011275"}, {"name": "Digvijay Sinver", "class": "9th", "section": "Austen", "portfolio": "Photography", "committee": "IP", "contact": "8398000100"}, {"name": "Ayushman", "class": "6th", "section": "Hyacinth", "portfolio": "Somalia", "committee": "UNGA", "contact": "9452294523"}, {"name": "Gurnoor", "class": "9th", "section": "John Donne", "portfolio": "Algeria", "committee": "UNHRC", "contact": "8847442489"}, {"name": "Sarvagya", "class": "9th", "section": "Kipling", "portfolio": "Japan", "committee": "UNCSW", "contact": "7982759154"}, {"name": "Digvi Chopra", "class": "6th", "section": "Hyacinth", "portfolio": "Yemen", "committee": "UNGA", "contact": "8901370320"}, {"name": "Manvi", "class": "6th", "section": "Hyacinth", "portfolio": "Romania", "committee": "UNGA", "contact": "9646699777"}, {"name": "Kanishka Sood", "class": "9th", "section": "Kipling", "portfolio": "Peru", "committee": "UNCSW", "contact": "8285952410"}, {"name": "Kanishka", "class": "7th", "section": "Dhalia", "portfolio": "Cuba", "committee": "WHO Beginners", "contact": "8901355553"}, {"name": "Abhimanyu", "class": "7th", "section": "Dhalia", "portfolio": "Cyprus", "committee": "WHO Beginners", "contact": "9582416700"}, {"name": "Aradhya", "class": "7th", "section": "Dhalia", "portfolio": "Myanmar", "committee": "WHO Beginners", "contact": "9318037982"}, {"name": "Yohaan Jassi", "class": "7th", "section": "Azalea", "portfolio": "Malta", "committee": "WHO Beginners", "contact": "8288888131"}, {"name": "Suryansh Pal", "class": "7th", "section": "Gladiolus", "portfolio": "Bahrain", "committee": "UNGA", "contact": "9041164076"}, {"name": "Gauri Verma", "class": "9th", "section": "Kipling", "portfolio": "Mauritius", "committee": "UNCSW", "contact": "6283872134"}, {"name": "Aayan Kalotra", "class": "7th", "section": "Aster", "portfolio": "Combodia", "committee": "WHO Beginners", "contact": "9646767650"}, {"name": "Prakhar Gautam", "class": "9th", "section": "Shakespeare", "portfolio": "Russian Federation", "committee": "UNSC", "contact": "7049977318"}, {"name": "Manya Khokhar", "class": "9th", "section": "Kipling", "portfolio": "Belarus", "committee": "UNCSW", "contact": "9999919157"}, {"name": "Sakshi", "class": "9th", "section": "Austen", "portfolio": "Mexico", "committee": "UNCSW", "contact": "7986555165"}, {"name": "Manyata", "class": "9th", "section": "Austen", "portfolio": "Kiribati", "committee": "UNCSW", "contact": "8558871998"}, {"name": "Anaya", "class": "10th", "section": "Chaucer", "portfolio": "Journalism", "committee": "IP", "contact": "9882145000"}, {"name": "Bhoumik Rathee", "class": "10th", "section": "Frost", "portfolio": "Norway", "committee": "UNHRC", "contact": "7696466810"}, {"name": "Veohm Sharma", "class": "6th", "section": "Crocus", "portfolio": "Mozambique", "committee": "WHO Beginners", "contact": "8837644575"}, {"name": "Vansh Goyal", "class": "7th", "section": "Jasmine", "portfolio": "India", "committee": "WHO Beginners", "contact": "9829064043"}, {"name": "Harshvardhan", "class": "7th", "section": "Azalea", "portfolio": "Ukraine", "committee": "WHO Beginners", "contact": "9501294255"}, {"name": "Jasmine", "class": "10th", "section": "Whitman", "portfolio": "Kuwait", "committee": "UNHRC", "contact": "9996515833"}, {"name": "Nipun", "class": "8th", "section": "Orchid", "portfolio": "Paraguay", "committee": "WHO Beginners", "contact": "9459695106"}, {"name": "Trisha Bansal", "class": "7th", "section": "Dahlia", "portfolio": "Brazil", "committee": "WHO Beginners", "contact": "9316467209"}, {"name": "Mansi Arora", "class": "7th", "section": "Jasmine", "portfolio": "Greece", "committee": "WHO Beginners", "contact": "9812343570"}, {"name": "Vaanya Sharma", "class": "7th", "section": "Jasmine", "portfolio": "Guyana", "committee": "WHO Beginners", "contact": "9857758901"}, {"name": "Shreya", "class": "8th", "section": "Marigold", "portfolio": "Morocco", "committee": "UNGA", "contact": "7696066624"}, {"name": "Ashwina", "class": "8th", "section": "Marigold", "portfolio": "Indonesia", "committee": "WHO Beginners", "contact": "7988787180"}, {"name": "Vritika Sharma", "class": "9th", "section": "-", "portfolio": "Kazakhstan", "committee": "UNGA", "contact": "8360605816"}, {"name": "Yuvraj", "class": "9th", "section": "Blake", "portfolio": "Norway", "committee": "UNGA", "contact": "8708056400"}, {"name": "Devan Poonia", "class": "8th", "section": "Iris", "portfolio": "CSK", "committee": "IPL", "contact": "7049977318"}, {"name": "Savya", "class": "7th", "section": "Primrose", "portfolio": "Kenya", "committee": "WHO Beginners", "contact": "9988162816"}, {"name": "Peerdiyal Jatt", "class": "8th", "section": "Florentina", "portfolio": "Photography", "committee": "IP", "contact": "9896553126"}, {"name": "Aditya Samyal", "class": "10th", "section": "Ruskin Bond", "portfolio": "Austria", "committee": "UNHRC", "contact": "9996515833"}, {"name": "Wahpreet", "class": "9th", "section": "Shelly", "portfolio": "Fiji", "committee": "UNGA", "contact": "9459695106"}, {"name": "Mannat", "class": "8th", "section": "Magnolia", "portfolio": "Bahrain", "committee": "WHO Beginners", "contact": "9316467209"}, {"name": "Tischa", "class": "7th", "section": "Begonia", "portfolio": "Yemen", "committee": "UNCSW", "contact": "8837632078"}, {"name": "Riyansh Banga", "class": "7th", "section": "Dahlia", "portfolio": "Poland", "committee": "WHO Beginners", "contact": "9896876432"}, {"name": "Akansha", "class": "11th", "section": "Newton", "portfolio": "Finland", "committee": "UNCSW", "contact": "9876529423"}, {"name": "Lakshika", "class": "11th", "section": "Newton", "portfolio": "New Zealand", "committee": "UNCSW", "contact": "9216476211"}, {"name": "Jaspreet", "class": "9th", "section": "Lawrence", "portfolio": "Venezuela", "committee": "UNCSW", "contact": "9218559678"}, {"name": "Sarthak Vashisht", "class": "8th", "section": "Lavender", "portfolio": "Peru", "committee": "UNHRC", "contact": "7973278106"}, {"name": "Jasmeet", "class": "8th", "section": "Hibiscus", "portfolio": "Sweden", "committee": "UNCSW", "contact": "8800922224"}, {"name": "Mannat Negi", "class": "8th", "section": "Rosemary", "portfolio": "MI", "committee": "IPL", "contact": "9456423444"}, {"name": "Aryan", "class": "11th", "section": "Kotler", "portfolio": "Journalism", "committee": "IP", "contact": "7986081965"}, {"name": "Ankit Kashyap", "class": "9th", "section": "Tennyson", "portfolio": "Jamaica", "committee": "UNHRC", "contact": "7696831819"}, {"name": "Arpit Kashyap", "class": "9th", "section": "Tennyson", "portfolio": "Somalia", "committee": "UNSC", "contact": "9812589097"}, {"name": "Maulik Juneja", "class": "6th", "section": "Hyacinth", "portfolio": "Monaco", "committee": "UNGA", "contact": "8219525977"}, {"name": "Divyanka Nanda", "class": "8th", "section": "Heather", "portfolio": "BOLIVIA", "committee": "WHO Beginners", "contact": "8558871998"}, {"name": "Harshita Kaur", "class": "8th", "section": "Heather", "portfolio": "Canada", "committee": "WHO Beginners", "contact": "9050345790"}, {"name": "Manan Garg", "class": "9th", "section": "T.S Eliot", "portfolio": "RR", "committee": "IPL", "contact": "9558824748"}, {"name": "Mishti Bhardwaj", "class": "11th", "section": "Kalpana", "portfolio": "Mali", "committee": "UNCSW", "contact": "9467744033"}, {"name": "Avishka Gupta", "class": "8th", "section": "Lavender", "portfolio": "Singapore", "committee": "UNGA", "contact": "9284812001"}, {"name": "Amyra Chaddha", "class": "7th", "section": "Aster", "portfolio": "Liberia", "committee": "WHO Beginners", "contact": "9501294255"}, {"name": "Veronica Chopra", "class": "8th", "section": "Hibiscus", "portfolio": "Ethopia", "committee": "UNCSW", "contact": "7988152256"}, {"name": "Aditi Sharma", "class": "8th", "section": "Magnolia", "portfolio": "Germany", "committee": "WHO Beginners", "contact": "6239296935"}, {"name": "Shivang", "class": "8th", "section": "Magnolia", "portfolio": "Bolivia", "committee": "UNGA", "contact": "9625292809"}, {"name": "Tanzil Bhargav", "class": "6th", "section": "Hyacinth", "portfolio": "Latvia", "committee": "UNGA", "contact": "9812343570"}, {"name": "Pari", "class": "8th", "section": "Hibiscus", "portfolio": "Ireland", "committee": "UNGA", "contact": "7009172576"}, {"name": "Jenica Kaur", "class": "8th", "section": "Hibiscus", "portfolio": "Estonia", "committee": "UNCSW", "contact": "9896876432"}, {"name": "Palak Mittal", "class": "11th", "section": "Keynes", "portfolio": "Latvia", "committee": "UNCSW", "contact": "9876529423"}, {"name": "Charvi Arora", "class": "8th", "section": "Daffodils", "portfolio": "Iceland", "committee": "WHO Beginners", "contact": "9216476211"}, {"name": "Kanika", "class": "8th", "section": "Hibiscus", "portfolio": "Guinea", "committee": "UNCSW", "contact": "7986549936"}, {"name": "Aarav Lakhanpal", "class": "8th", "section": "Rosemary", "portfolio": "Panama", "committee": "WHO Beginners", "contact": "9996311035"}, {"name": "Rudra Raj", "class": "8th", "section": "Iris", "portfolio": "Luxembourg", "committee": "UNGA", "contact": "9056881766"}, {"name": "Ayushi valiyam", "class": "9th", "section": "Austen", "portfolio": "Iraq", "committee": "UNGA", "contact": "9456423444"}, {"name": "Ananya Bharti", "class": "10th", "section": "Chaucer", "portfolio": "Bolivia", "committee": "UNCSW", "contact": "9056292556"}, {"name": "Shanvi Soni", "class": "10th", "section": "Chaucer", "portfolio": "Democratic Republic of the Congo", "committee": "UNSC", "contact": "7015845962"}, {"name": "Pranshi", "class": "9th", "section": "Tennyson", "portfolio": "Cuba", "committee": "UNHRC", "contact": "9991710803"}, {"name": "Aditya Gupta", "class": "8th", "section": "Marigold", "portfolio": "Uganda", "committee": "WHO Beginners", "contact": "9817777013"}, {"name": "Himanshi", "class": "8th", "section": "Heather", "portfolio": "Peru", "committee": "UNGA", "contact": "7009349061"}, {"name": "Mahi Lather", "class": "8th", "section": "Heather", "portfolio": "Jamaica", "committee": "UNGA", "contact": "7009634349"}, {"name": "Vedanshi", "class": "8th", "section": "Heather", "portfolio": "Croatia", "committee": "WHO Beginners", "contact": "9592087676"}, {"name": "Ishaan Kashyap", "class": "7th", "section": "Clover", "portfolio": "Greece", "committee": "UNCSW", "contact": "9041023237"}, {"name": "Mahi Kashyap", "class": "7th", "section": "Clover", "portfolio": "Jordan", "committee": "UNCSW", "contact": "7973499648"}, {"name": "Taniya", "class": "7th", "section": "Clover", "portfolio": "Liberia", "committee": "UNCSW", "contact": "9877289265"}, {"name": "Ansh Sharma", "class": "9th", "section": "Shakespeare", "portfolio": "Russian Federation", "committee": "UNGA", "contact": "7018948344"}, {"name": "Deevanshi Gupta", "class": "9th", "section": "Shakespeare", "portfolio": "Kenya", "committee": "UNHRC", "contact": "9569255098"}, {"name": "Kanika Singh", "class": "8th", "section": "Heather", "portfolio": "Somalia", "committee": "UNCSW", "contact": "9988163231"}, {"name": "Gunjan", "class": "7th", "section": "Clover", "portfolio": "Malaysia", "committee": "UNGA", "contact": "9992550488"}, {"name": "Lakhit Sharma", "class": "5th", "section": "Zinnia", "portfolio": "Madagascar", "committee": "WHO Beginners", "contact": "9467866773"}, {"name": "Daksh", "class": "10th", "section": "Browning", "portfolio": "Caricature", "committee": "IP", "contact": "9056675238"}, {"name": "Yashashvi Arya", "class": "8th", "section": "Marigold", "portfolio": "Tunisia", "committee": "WHO Beginners", "contact": "7018703001"}, {"name": "Jashan Sharma", "class": "10th", "section": "Coleridge", "portfolio": "Photography", "committee": "IP", "contact": "9878309693"}, {"name": "Dev", "class": "9th", "section": "Shakespeare", "portfolio": "Gambia", "committee": "UNGA", "contact": "9996311035"}, {"name": "Yashica Yadav", "class": "8th", "section": "Lavender", "portfolio": "Denmark", "committee": "UNCSW", "contact": "8901306647"}, {"name": "Sarthak Mehta", "class": "9th", "section": "Tennyson", "portfolio": "Ireland", "committee": "UNCSW", "contact": "7986317993"}, {"name": "Mohit Sharma", "class": "9th", "section": "John Donne", "portfolio": "Liberia", "committee": "UNGA", "contact": "9988040615"}, {"name": "Ashmita Nagi", "class": "8th", "section": "Rosemary", "portfolio": "Senegal", "committee": "WHO Beginners", "contact": "9888811434"}, {"name": "Srishti Bisht", "class": "7th", "section": "Clover", "portfolio": "Morocco", "committee": "UNCSW", "contact": "9888024406"}, {"name": "Devvardhan", "class": "9th", "section": "Blake", "portfolio": "UAE", "committee": "UNGA", "contact": "7032712284"}, {"name": "Taiysha", "class": "8th", "section": "Marigold", "portfolio": "Jordan", "committee": "WHO Beginners", "contact": "7986081965"}, {"name": "Abhishek Yadav", "class": "9th", "section": "Blake", "portfolio": "Panama", "committee": "UNGA", "contact": "9241524016"}, {"name": "Ansh Mishra", "class": "10th", "section": "Coleridge", "portfolio": "Photography", "committee": "IP", "contact": "9812589097"}, {"name": "Gunjan Kumari", "class": "8th", "section": "Marigold", "portfolio": "Sweden", "committee": "WHO Beginners", "contact": "8219525977"}, {"name": "Pyansha Mittal", "class": "10th", "section": "Chaucer", "portfolio": "South Sudan", "committee": "WHO Beginners", "contact": "9988411764"}, {"name": "Bhumi Saini", "class": "8th", "section": "Carnation", "portfolio": "Tajikistan", "committee": "WHO Beginners", "contact": "9050345790"}, {"name": "Kyra Ghandiali", "class": "11th", "section": "Williams", "portfolio": "Oman", "committee": "UNCSW", "contact": "9558824748"}, {"name": "Prisha", "class": "9th", "section": "O Henry", "portfolio": "Zambia", "committee": "UNCSW", "contact": "9467744033"}, {"name": "Namrta Chauhan", "class": "10th", "section": "Ruskin Bond", "portfolio": "Fiji", "committee": "UNHRC", "contact": "9284812001"}, {"name": "Vansh Rajput", "class": "10th", "section": "Frost", "portfolio": "Egypt", "committee": "UNHRC", "contact": "9882072000"}, {"name": "Aarav Gupta", "class": "8th", "section": "Lavender", "portfolio": "Photography", "committee": "IP", "contact": "8950257176"}, {"name": "Avni", "class": "9th", "section": "Austen", "portfolio": "Veitnam", "committee": "UNGA", "contact": "-"}, {"name": "Ranvijay Chauhan", "class": "9th", "section": "John Donne", "portfolio": "KKR", "committee": "IPL", "contact": "9306279229"}, {"name": "Vrinda Gambhir", "class": "10th", "section": "Coleridge", "portfolio": "Taylor Swift", "committee": "The Fame Files", "contact": "6239296935"}, {"name": "Aradhya Pal", "class": "7th", "section": "Jasmine", "portfolio": "Czech Republic", "committee": "WHO Beginners", "contact": "9625292809"}, {"name": "Abhyukt Abrol", "class": "5th", "section": "Zinnia", "portfolio": "Turkmenistan", "committee": "WHO Beginners", "contact": "8295942894"}, {"name": "Avni Bamby", "class": "8th", "section": "Marigold", "portfolio": "Tanzania", "committee": "WHO Beginners", "contact": "7009172576"}, {"name": "Dev Bansal", "class": "10th", "section": "Brooke", "portfolio": "Caricature", "committee": "IP", "contact": "9781427031"}, {"name": "Girija", "class": "9th", "section": "Austen", "portfolio": "Photography", "committee": "IP", "contact": "9888521029"}, {"name": "Rashi Panghal", "class": "10th", "section": "Chaucer", "portfolio": "Journalism", "committee": "IP", "contact": "9888753029"}, {"name": "Surbhi", "class": "9th", "section": "Tennyson", "portfolio": "Journalism", "committee": "IP", "contact": "7986549936"}, {"name": "Pranusha Chauhan", "class": "10th", "section": "-", "portfolio": "Albania", "committee": "UNHRC", "contact": "8882499505"}, {"name": "Yashvi Kashyap", "class": "11th", "section": "Williams", "portfolio": "Kenya", "committee": "UNCSW", "contact": "9056881766"}, {"name": "Riya", "class": "9th", "section": "Arnold", "portfolio": "Chile", "committee": "UNHRC", "contact": "7652803057"}, {"name": "Akshita Nautiyal", "class": "8th", "section": "Carnation", "portfolio": "Libya", "committee": "UNHRC", "contact": "8558904035"}, {"name": "Aarush Kansal", "class": "10th", "section": "Brooke", "portfolio": "Journalism", "committee": "IP", "contact": "6230200436"}, {"name": "Archisa Aggarwal", "class": "8th", "section": "Iris", "portfolio": "Argentina", "committee": "UNCSW", "contact": "9717917858"}, {"name": "Mishika Handa", "class": "9th", "section": "Austen", "portfolio": "Thailand", "committee": "UNHRC", "contact": "9034083383"}, {"name": "Anubhav kumar", "class": "11th", "section": "Kotler", "portfolio": "Adhir Ranjan Chowdhury", "committee": "AIPPM", "contact": "9988290035"}, {"name": "taranveer singh", "class": "10th", "section": "Wordsworth", "portfolio": "Photography", "committee": "IP", "contact": "8901077711"}, {"name": "Devishi Sharma", "class": "7th", "section": "Chrysanthemum", "portfolio": "Nepal", "committee": "WHO Beginners", "contact": "9914096778"}, {"name": "Neeharika Sarkar", "class": "12th", "section": "Teresa", "portfolio": "USA", "committee": "UNGA", "contact": "8295987099"}, {"name": "Arushi Negi", "class": "9th", "section": "Shakespeare", "portfolio": "Chile", "committee": "UNGA", "contact": "8968148101"}, {"name": "Aradhya", "class": "9th", "section": "D. Lewis", "portfolio": "Costa Rica", "committee": "UNGA", "contact": "7807777735"}, {"name": "Kanika Bakshi", "class": "7th", "section": "Dahlia", "portfolio": "GUINEA", "committee": "WHO Beginners", "contact": "9991301206"}, {"name": "Gauransh", "class": "7th", "section": "Jasmine", "portfolio": "Maldives", "committee": "UNHRC", "contact": "9646202003"}, {"name": "Aarav Rai", "class": "7th", "section": "Gladiolus", "portfolio": "Luxembourg", "committee": "WHO Beginners", "contact": "9646954927"}, {"name": "Kinjal", "class": "8th", "section": "Lavender", "portfolio": "Japan", "committee": "WHO Beginners", "contact": "9289840151"}, {"name": "Shivay", "class": "7th", "section": "Gladiolus", "portfolio": "Angola", "committee": "WHO Beginners", "contact": "7291856229"}, {"name": "Adhvika Agarwal", "class": "9th", "section": "-", "portfolio": "UK", "committee": "UNHRC", "contact": "7207566363"}, {"name": "Uday Sandhu", "class": "10th", "section": "Whitman", "portfolio": "Italy", "committee": "UNHRC", "contact": "8570045781"}, {"name": "Jeevika Sahni", "class": "9th", "section": "-", "portfolio": "Serbia", "committee": "UNHRC", "contact": "9878250300"}];
+
+  // Build phone → delegate index (handles duplicates by keeping first match)
+  const phoneIndex = {};
+  DELEGATES.forEach(d => {
+    const ph = d.contact.replace(/\D/g, '');
+    if (ph && ph !== '-' && !phoneIndex[ph]) {
+      phoneIndex[ph] = d;
+    }
+  });
+
+  function handleLogin() {
+    const input = document.getElementById('phoneInput').value.replace(/\D/g, '');
+    const err = document.getElementById('errorMsg');
+    err.classList.remove('show');
+
+    if (input.length !== 10) {
+      err.textContent = 'Please enter a valid 10-digit phone number.';
+      err.classList.add('show');
+      return;
+    }
+
+    const delegate = phoneIndex[input];
+    if (!delegate) {
+      err.textContent = 'No delegate found with this number. Please check and try again.';
+      err.classList.add('show');
+      return;
+    }
+
+    // Store and redirect
+    sessionStorage.setItem('spsmun_delegate', JSON.stringify(delegate));
+    window.location.href = 'profile.html';
+  }
+
+  // Allow Enter key
+  document.getElementById('phoneInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleLogin();
+  });
+
+  // Floating particles
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (8 + Math.random() * 12) + 's';
+    p.style.animationDelay = (Math.random() * 10) + 's';
+    p.style.width = p.style.height = (1 + Math.random() * 2) + 'px';
+    container.appendChild(p);
+  }
+</script>
+</body>
+</html>

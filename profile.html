@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPSMUN 3.0 — My Profile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --deep: #0D2B1F;
+    --forest: #114734;
+    --emerald: #1D9E75;
+    --gold: #D4AF37;
+    --cream: #E0C889;
+    --dark: #1A1A1A;
+    --text: #e8dfc8;
+    --muted: #8a9e8a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: var(--deep);
+    color: var(--text);
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse at 10% 50%, rgba(29,158,117,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse at 90% 20%, rgba(212,175,55,0.05) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), var(--cream), var(--gold), transparent);
+    z-index: 100;
+  }
+
+  .page-wrapper {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 48px;
+    border-bottom: 1px solid rgba(212,175,55,0.2);
+  }
+
+  .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .logo-emblem {
+    width: 44px; height: 44px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; color: var(--gold);
+    background: rgba(212,175,55,0.05);
+  }
+
+  .logo-text {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    color: var(--cream);
+    line-height: 1.4;
+  }
+
+  .logo-text span {
+    display: block;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.25em;
+  }
+
+  .btn-back {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    border: 1px solid rgba(138,158,138,0.3);
+    padding: 7px 16px;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: color 0.2s, border-color 0.2s;
+    cursor: pointer;
+    background: none;
+  }
+
+  .btn-back:hover {
+    color: var(--gold);
+    border-color: rgba(212,175,55,0.4);
+  }
+
+  /* Main */
+  main {
+    flex: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 56px 24px 80px;
+  }
+
+  /* Greeting */
+  .greeting-area {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+
+  .greeting-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: var(--emerald);
+    margin-bottom: 16px;
+  }
+
+  .delegate-name {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(32px, 7vw, 58px);
+    font-weight: 900;
+    color: var(--gold);
+    text-shadow: 0 0 40px rgba(212,175,55,0.25);
+    line-height: 1.05;
+    margin-bottom: 10px;
+    letter-spacing: 0.03em;
+  }
+
+  .welcome-line {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--cream);
+    opacity: 0.7;
+    letter-spacing: 0.05em;
+  }
+
+  /* Credential cards */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .cred-card {
+    background: rgba(17, 71, 52, 0.25);
+    border: 1px solid rgba(212,175,55,0.2);
+    border-radius: 5px;
+    padding: 28px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .cred-card:hover {
+    border-color: rgba(212,175,55,0.45);
+    transform: translateY(-2px);
+  }
+
+  .cred-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.5;
+  }
+
+  .cred-icon {
+    font-size: 22px;
+    margin-bottom: 12px;
+    opacity: 0.8;
+  }
+
+  .cred-label {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .cred-value {
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--cream);
+    letter-spacing: 0.05em;
+    line-height: 1.3;
+  }
+
+  /* Committee block */
+  .committee-block {
+    background: rgba(13, 43, 31, 0.7);
+    border: 1px solid rgba(212,175,55,0.3);
+    border-radius: 6px;
+    padding: 36px 40px;
+    margin-bottom: 32px;
+    position: relative;
+  }
+
+  .committee-block::before,
+  .committee-block::after {
+    content: '';
+    position: absolute;
+    width: 20px; height: 20px;
+    border-color: var(--gold);
+    border-style: solid;
+    opacity: 0.4;
+  }
+
+  .committee-block::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+  .committee-block::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+  .committee-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 28px;
+  }
+
+  .committee-badge {
+    background: linear-gradient(135deg, var(--gold), #8a6a10);
+    color: var(--dark);
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    padding: 10px 22px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+
+  .committee-info h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 20px;
+    color: var(--cream);
+    margin-bottom: 4px;
+  }
+
+  .committee-info p {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+  }
+
+  /* Portfolio row */
+  .portfolio-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: rgba(29,158,117,0.08);
+    border: 1px solid rgba(29,158,117,0.2);
+    border-radius: 4px;
+  }
+
+  .portfolio-dot {
+    width: 6px; height: 6px;
+    background: var(--emerald);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .portfolio-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  .portfolio-value {
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    color: var(--cream);
+    font-weight: 600;
+  }
+
+  /* Agenda section */
+  .agenda-section {
+    background: rgba(13, 43, 31, 0.5);
+    border: 1px solid rgba(212,175,55,0.15);
+    border-radius: 6px;
+    padding: 32px 40px;
+    margin-bottom: 32px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(212,175,55,0.3), transparent);
+  }
+
+  .agenda-item {
+    display: flex;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(212,175,55,0.08);
+  }
+
+  .agenda-item:last-child { border-bottom: none; }
+
+  .agenda-num {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    color: var(--gold);
+    opacity: 0.6;
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+
+  .agenda-text {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--cream);
+    opacity: 0.85;
+  }
+
+  .agenda-note {
+    margin-top: 20px;
+    padding: 14px 18px;
+    background: rgba(29,158,117,0.07);
+    border-left: 3px solid var(--emerald);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .agenda-note p {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .agenda-note a {
+    color: var(--emerald);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .agenda-note a:hover { text-decoration: underline; }
+
+  /* Quote */
+  .quote-block {
+    text-align: center;
+    padding: 32px 20px;
+  }
+
+  .quote-block blockquote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(15px, 3vw, 18px);
+    line-height: 1.7;
+    color: var(--cream);
+    opacity: 0.75;
+    max-width: 560px;
+    margin: 0 auto 12px;
+  }
+
+  .quote-block cite {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    opacity: 0.6;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 24px;
+    border-top: 1px solid rgba(212,175,55,0.1);
+  }
+
+  footer p { font-size: 10px; letter-spacing: 0.15em; color: var(--muted); }
+  footer a { color: var(--emerald); text-decoration: none; }
+
+  /* Loading state */
+  #loadingState {
+    text-align: center;
+    padding: 120px 20px;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    color: var(--muted);
+  }
+
+  #profileContent { display: none; }
+
+  /* Reveal animation */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 660px) {
+    header { padding: 18px 20px; }
+    main { padding: 40px 16px 60px; }
+    .cards-grid { grid-template-columns: 1fr; gap: 12px; }
+    .committee-block, .agenda-section { padding: 24px 20px; }
+    .committee-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-wrapper">
+  <header>
+    <div class="logo-area">
+      <div class="logo-emblem">✦</div>
+      <div class="logo-text">
+        SATLUJ MUN
+        <span>SPSMUN 3.0</span>
+      </div>
+    </div>
+    <button class="btn-back" onclick="goBack()">← Back to Login</button>
+  </header>
+
+  <main>
+    <div id="loadingState">Loading your profile…</div>
+
+    <div id="profileContent">
+      <!-- Greeting -->
+      <div class="greeting-area reveal" id="greetingArea">
+        <div class="greeting-tag">· Welcome, Delegate ·</div>
+        <div class="delegate-name" id="delegateName">—</div>
+        <div class="welcome-line">Your credentials for SPSMUN 3.0 are confirmed below.</div>
+      </div>
+
+      <!-- 3 credential cards -->
+      <div class="cards-grid reveal" id="cardsGrid" style="transition-delay:0.1s">
+        <div class="cred-card">
+          <div class="cred-icon">🎓</div>
+          <div class="cred-label">Class</div>
+          <div class="cred-value" id="cardClass">—</div>
+        </div>
+        <div class="cred-card">
+          <div class="cred-icon">🏛️</div>
+          <div class="cred-label">Committee</div>
+          <div class="cred-value" id="cardCommittee">—</div>
+        </div>
+        <div class="cred-card">
+          <div class="cred-icon">🌍</div>
+          <div class="cred-label">Portfolio</div>
+          <div class="cred-value" id="cardPortfolio">—</div>
+        </div>
+      </div>
+
+      <!-- Committee + portfolio detail -->
+      <div class="committee-block reveal" id="committeeBlock" style="transition-delay:0.2s">
+        <div class="committee-header">
+          <div class="committee-badge" id="committeeBadge">—</div>
+          <div class="committee-info">
+            <h2 id="committeeFull">—</h2>
+            <p id="committeeDesc">—</p>
+          </div>
+        </div>
+        <div class="portfolio-row">
+          <div class="portfolio-dot"></div>
+          <div class="portfolio-label">Representing</div>
+          <div class="portfolio-value" id="portfolioFull">—</div>
+        </div>
+      </div>
+
+      <!-- Agenda -->
+      <div class="agenda-section reveal" id="agendaSection" style="transition-delay:0.3s">
+        <div class="section-header">
+          <div class="section-title">Committee Agenda</div>
+          <div class="section-line"></div>
+        </div>
+        <div id="agendaItems">—</div>
+        <div class="agenda-note">
+          <p>For the full, official agenda and background guides, visit <a href="https://satlujmun.com" target="_blank">satlujmun.com</a> and navigate to your committee page. All study material and updates will be published there.</p>
+        </div>
+      </div>
+
+      <!-- Quote -->
+      <div class="quote-block reveal" id="quoteBlock" style="transition-delay:0.4s">
+        <blockquote>"The future belongs to those who prepare for it today."</blockquote>
+        <cite>— MALCOLM X</cite>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>SPSMUN 3.0 &nbsp;|&nbsp; Satluj Public School &nbsp;|&nbsp; <a href="https://satlujmun.com" target="_blank">satlujmun.com</a></p>
+  </footer>
+</div>
+
+<script>
+  // ── Committee meta-data ──
+  const COMMITTEE_META = {
+    'UNSC': {
+      full: 'United Nations Security Council',
+      desc: 'Maintaining international peace and security in accordance with the UN Charter.',
+      agenda: [
+        'Addressing the escalating conflict in the Korean Peninsula and denuclearization efforts.',
+        'Measures to combat the proliferation of non-state armed groups in the Sahel region.',
+        'Reforming the veto mechanism for more equitable representation in global security governance.'
+      ]
+    },
+    'UNGA': {
+      full: 'United Nations General Assembly',
+      desc: 'The main deliberative, policymaking, and representative organ of the United Nations.',
+      agenda: [
+        'Strengthening international climate finance frameworks for developing nations.',
+        'Addressing the global refugee and displacement crisis through sustainable burden-sharing.',
+        'Ensuring universal access to digital infrastructure for equitable global development.'
+      ]
+    },
+    'UNHRC': {
+      full: 'United Nations Human Rights Council',
+      desc: 'Promoting and protecting human rights around the globe and addressing violations.',
+      agenda: [
+        'Protection of human rights defenders in authoritarian regimes.',
+        'Rights of indigenous peoples in the context of extractive industries.',
+        'Accountability mechanisms for human rights violations in conflict zones.'
+      ]
+    },
+    'UNCSW': {
+      full: 'UN Commission on the Status of Women',
+      desc: 'The principal global intergovernmental body dedicated to gender equality.',
+      agenda: [
+        'Eliminating gender-based violence in digital and online spaces.',
+        'Economic empowerment of women in post-conflict reconstruction.',
+        'Closing the STEM gender gap to achieve equitable technological participation.'
+      ]
+    },
+    'WHO': {
+      full: 'World Health Organization',
+      desc: 'Directing international health work and the world's leading authority on global health.',
+      agenda: [
+        'Pandemic preparedness — strengthening early-warning and rapid-response systems.',
+        'Combating the global antimicrobial resistance crisis.',
+        'Addressing the worldwide mental health epidemic post-COVID-19.'
+      ]
+    },
+    'WHO Beginners': {
+      full: 'World Health Organization (Beginners)',
+      desc: 'An introductory committee simulating WHO debates for first-time delegates.',
+      agenda: [
+        'Universal access to clean water and its link to disease prevention.',
+        'Child vaccination drives and overcoming vaccine hesitancy in developing nations.',
+        'Tackling childhood malnutrition through international food security frameworks.'
+      ]
+    },
+    'AIPPM': {
+      full: 'All India Political Parties Meet',
+      desc: 'A simulation of India\'s parliamentary debate across party lines.',
+      agenda: [
+        'Debate on implementing a Uniform Civil Code and its constitutional implications.',
+        'Addressing unemployment through skill-development and industrial policy reform.',
+        'Centre-State fiscal relations and restructuring the GST framework.'
+      ]
+    },
+    'IP': {
+      full: 'International Press',
+      desc: 'Delegates serve as journalists, reporters, and media professionals covering SPSMUN.',
+      agenda: [
+        'Covering all committee sessions with live reporting and editorial pieces.',
+        'Photography, caricature, journalism, and multimedia documentation of the conference.',
+        'Publishing the official SPSMUN 3.0 Gazette across print and digital platforms.'
+      ]
+    },
+    'IPL': {
+      full: 'Indian Premier League Committee',
+      desc: 'A unique crisis committee simulating the IPL Governing Council.',
+      agenda: [
+        'Crisis management: addressing match-fixing allegations and restoring the league\'s credibility.',
+        'Expanding IPL\'s global broadcast footprint and media rights renegotiation.',
+        'Franchise sustainability — salary cap reform and revenue-sharing models.'
+      ]
+    },
+    'The Fame Files': {
+      full: 'The Fame Files',
+      desc: 'An entertainment and pop-culture committee at SPSMUN 3.0.',
+      agenda: [
+        'Debating the ethics of celebrity influence on youth culture and social standards.',
+        'Intellectual property in the age of AI-generated music and digital artistry.',
+        'Managing cancel culture and public accountability for high-profile personalities.'
+      ]
+    },
+    'DISEC': {
+      full: 'Disarmament & International Security Committee',
+      desc: 'Working toward the elimination of weapons and ensuring global security frameworks.',
+      agenda: [
+        'Regulating the development and deployment of autonomous lethal weapons systems.',
+        'Addressing cyberwarfare as a tool of geopolitical conflict.',
+        'Strengthening the Nuclear Non-Proliferation Treaty in a multipolar world.'
+      ]
+    }
+  };
+
+  function goBack() {
+    sessionStorage.removeItem('spsmun_delegate');
+    window.location.href = 'index.html';
+  }
+
+  function renderProfile(d) {
+    // Name
+    document.getElementById('delegateName').textContent = d.name;
+    document.title = `${d.name} — SPSMUN 3.0`;
+
+    // Cards
+    document.getElementById('cardClass').textContent = d.class;
+    document.getElementById('cardCommittee').textContent = d.committee;
+    document.getElementById('cardPortfolio').textContent = d.portfolio;
+
+    // Committee block
+    document.getElementById('committeeBadge').textContent = d.committee;
+    const meta = COMMITTEE_META[d.committee] || {
+      full: d.committee,
+      desc: 'A committee at SPSMUN 3.0.',
+      agenda: ['Agenda details will be published on satlujmun.com.']
+    };
+    document.getElementById('committeeFull').textContent = meta.full;
+    document.getElementById('committeeDesc').textContent = meta.desc;
+    document.getElementById('portfolioFull').textContent = d.portfolio;
+
+    // Agenda
+    const agendaEl = document.getElementById('agendaItems');
+    agendaEl.innerHTML = meta.agenda.map((item, i) =>
+      `<div class="agenda-item">
+        <div class="agenda-num">0${i+1}</div>
+        <div class="agenda-text">${item}</div>
+      </div>`
+    ).join('');
+
+    // Show content
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('profileContent').style.display = 'block';
+
+    // Staggered reveals
+    setTimeout(() => {
+      document.querySelectorAll('.reveal').forEach((el, i) => {
+        setTimeout(() => el.classList.add('visible'), i * 100);
+      });
+    }, 50);
+  }
+
+  // ── Init ──
+  (function init() {
+    const raw = sessionStorage.getItem('spsmun_delegate');
+    if (!raw) {
+      document.getElementById('loadingState').textContent = 'No session found. Redirecting…';
+      setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+      return;
+    }
+
+    try {
+      const delegate = JSON.parse(raw);
+      renderProfile(delegate);
+    } catch (e) {
+      window.location.href = 'index.html';
+    }
+  })();
+</script>
+</body>
+</html>
